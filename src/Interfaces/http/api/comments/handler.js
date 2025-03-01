@@ -6,6 +6,14 @@ class CommentsHandler {
     this._container = container;
   }
 
+  async deleteCommentByIdHandler(request) {
+    const { id: userId } = request.auth.credentials;
+    const deleteCommentUseCase = this._container.getInstance(DeleteCommentUseCase.name);
+    await deleteCommentUseCase.execute(userId, request.params);
+
+    return { status: 'success' };
+  }
+
   async postCommentHandler(request, h) {
     const { id: userId } = request.auth.credentials;
     const { threadId } = request.params;
@@ -19,14 +27,6 @@ class CommentsHandler {
     });
     response.code(201);
     return response;
-  }
-
-  async deleteCommentByIdHandler(request) {
-    const { id: userId } = request.auth.credentials;
-    const deleteCommentUseCase = this._container.getInstance(DeleteCommentUseCase.name);
-    await deleteCommentUseCase.execute(userId, request.params);
-
-    return { status: 'success' };
   }
 }
 

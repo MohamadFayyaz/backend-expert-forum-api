@@ -25,10 +25,7 @@ class CommentDetail {
     }
 
     if (
-      typeof id !== 'string'
-      || typeof username !== 'string'
-      || typeof content !== 'string'
-      || (typeof date !== 'string' && typeof date !== 'object')
+      typeof id !== 'string' || typeof username !== 'string' || typeof content !== 'string' || (typeof date !== 'string' && typeof date !== 'object')
     ) {
       throw new Error('COMMENT_DETAIL.NOT_MEET_DATA_TYPE_SPECIFICATION');
     }
