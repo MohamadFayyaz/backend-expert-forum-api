@@ -19,6 +19,10 @@
           uses: actions/setup-node@v2
           with:
             node-version: ${{ matrix.node-version }}
+        - name: Debug Secrets
+          run: |
+            echo "PGHOST_TEST=${{ secrets.PGHOST_TEST }}"
+            echo "PGUSER_TEST=${{ secrets.PGUSER_TEST }}"
         - name: npm install migrate and test
           run: |
             npm install
