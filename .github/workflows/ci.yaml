@@ -11,7 +11,7 @@
      
         strategy:
           matrix:
-            node-version: [14.x]
+            node-version: ['18.x']
      
         steps:
         - uses: actions/checkout@v2
@@ -26,7 +26,6 @@
             npm run test
           env:
             CI: true
-            PGHOST_TEST: ${{ secrets.PGHOST_TEST }}
             PGUSER_TEST: ${{ secrets.PGUSER_TEST }}
             PGDATABASE_TEST: ${{ secrets.PGDATABASE_TEST }}
             PGPASSWORD_TEST: ${{ secrets.PGPASSWORD_TEST }}
