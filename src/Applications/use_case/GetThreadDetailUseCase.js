@@ -1,25 +1,31 @@
 const CommentDetail = require('../../Domains/comments/entities/CommentDetail');
 const ThreadDetail = require('../../Domains/threads/entities/ThreadDetail');
+const ReplyDetail = require('../../Domains/replies/entities/ReplyDetail');
 
 class GetThreadDetailUseCase {
   constructor({
     threadRepository,
     commentRepository,
+    replyRepository,
   }) {
     this._threadRepository = threadRepository;
     this._commentRepository = commentRepository;
+    this._replyRepository = replyRepository;
   }
 
   async execute(threadId) {
     const threadDetail = await this._threadRepository.getThreadById(threadId);
     const threadComments = await this._commentRepository.getCommentsByThreadId(threadId);
+    const threadCommentsReplies = await this._replyRepository.getRepliesByThreadId(threadId);
+
+
 
     threadDetail.comments = threadComments.map((comment) => new CommentDetail({
-      id: comment.id,
-      content: comment.content,
-      date: comment.date,
-      username: comment.username,
-      is_delete: comment.is_delete,
+      ...comment,
+      replies: comment.is_delete
+        ? []
+        : threadCommentsReplies.filter((reply) => reply.comment === comment.id)
+          .map((reply) => new ReplyDetail(reply)),
     }));
 
     return new ThreadDetail(threadDetail);
